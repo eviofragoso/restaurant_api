@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :menu do
+    restaurant
     availability { 1 }
     name { "Michellin Rated Menu" }
     description { "Menu for people with refined taste" }

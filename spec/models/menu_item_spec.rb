@@ -18,7 +18,9 @@ RSpec.describe MenuItem, type: :model do
 
     context "uniqueness" do
       it "validates uniqueness of name" do
-        expect(build(:menu_item, name: nil)).not_to be_valid
+        first_menu_item = create(:menu_item)
+
+        expect(build(:menu_item, name: first_menu_item.name)).not_to be_valid
       end
     end
   end
