@@ -4,6 +4,8 @@ class MenuItemsController < ApplicationController
   # GET /menu_items
   def index
     @menu_items = MenuItem.all
+    @menu_items = @menu_items.where(restaurant_id: params[:restaurant_id]) if params.key?(:restaurant_id)
+    @menu_items = @menu_items.joins(:menus).where(menus: { id: params[:menu_id] }) if params.key?(:menu_id)
 
     render json: @menu_items
   end

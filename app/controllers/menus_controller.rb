@@ -4,6 +4,7 @@ class MenusController < ApplicationController
   # GET /menus
   def index
     @menus = Menu.all
+    @menus = @menus.where(restaurant_id: params[:restaurant_id]) if params.key?(:restaurant_id)
 
     render json: @menus
   end

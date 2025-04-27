@@ -42,6 +42,31 @@ RSpec.describe "/menu_items", type: :request do
       get menu_items_url, headers: valid_headers, as: :json
       expect(response).to be_successful
     end
+
+    it "filters menu items by restaurant" do
+      menu_item_1 = create :menu_item
+      create :menu_item
+
+      get menu_items_url, params: { restaurant_id: menu_item_1.restaurant_id }, headers: valid_headers
+
+      parsed_response = JSON.parse(response.body)
+
+      expect(parsed_response.length).to eq(1)
+      expect(parsed_response.first["id"]).to eq(menu_item_1.id)
+    end
+
+    it "filters menu items by menu" do
+      menu_item_1 = create :menu_item
+      create :menu_item
+      menu = create :menu, restaurant: menu_item_1.restaurant, menu_item_ids: [ menu_item_1.id ]
+
+      get menu_items_url, params: { menu_id: menu.id }, headers: valid_headers
+
+      parsed_response = JSON.parse(response.body)
+
+      expect(parsed_response.length).to eq(1)
+      expect(parsed_response.first["id"]).to eq(menu_item_1.id)
+    end
   end
 
   describe "GET /show" do
