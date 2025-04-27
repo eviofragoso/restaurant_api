@@ -44,4 +44,7 @@ group :development, :test do
 
   # Drop-in alternative to Rails default testing framework, Minitest.
   gem "rspec-rails", "~> 7.0.0"
+
+  # factory_bot is a fixtures replacement with a straightforward definition syntax, support for multiple build strategies
+  gem "factory_bot_rails"
 end

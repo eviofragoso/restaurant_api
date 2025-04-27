@@ -16,12 +16,16 @@ RSpec.describe "/menu_items", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # MenuItem. As you add validations to MenuItem, be sure to
   # adjust the attributes here as well.
+  let(:menu) {
+    FactoryBot.create(:menu)
+  }
+
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    FactoryBot.attributes_for(:menu_item, menu_id: menu.id)
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    valid_attributes.merge({ name: nil })
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -84,8 +88,15 @@ RSpec.describe "/menu_items", type: :request do
 
   describe "PATCH /update" do
     context "with valid parameters" do
+      let(:new_menu) { FactoryBot.create(:menu) }
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {
+          menu_id: new_menu.id,
+          name: "grilled squid",
+          description: "grilled squid with garlic and butter",
+          lact_free: false,
+          gluten_free: true
+        }
       }
 
       it "updates the requested menu_item" do
@@ -93,7 +104,9 @@ RSpec.describe "/menu_items", type: :request do
         patch menu_item_url(menu_item),
               params: { menu_item: new_attributes }, headers: valid_headers, as: :json
         menu_item.reload
-        skip("Add assertions for updated state")
+        changed_attributes = menu_item.attributes.slice("menu_id", "name", "description", "lact_free", "gluten_free")
+
+        expect(changed_attributes.values).to eq(new_attributes.values)
       end
 
       it "renders a JSON response with the menu_item" do

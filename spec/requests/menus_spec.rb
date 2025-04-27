@@ -17,21 +17,11 @@ RSpec.describe "/menus", type: :request do
   # Menu. As you add validations to Menu, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    {
-      availability: :all_time,
-      day_period: :dinner,
-      signed_chef: "Gordon Ramsay",
-      name: "Michellin Rated Menu",
-      description: "Menu for people with refined taste"
-    }
+    FactoryBot.attributes_for(:menu)
   }
 
   let(:invalid_attributes) {
-    {
-      signed_chef: "Gordon Ramsay",
-      name: "",
-      description: "Menu for people with refined taste"
-    }
+    valid_attributes.merge({ name: nil })
   }
 
   # This should return the minimal set of values that should be in the headers
