@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_27_134724) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_27_182205) do
   create_table "menu_items", force: :cascade do |t|
     t.text "description"
     t.boolean "lact_free"
@@ -27,6 +27,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_27_134724) do
     t.integer "menu_item_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "price"
     t.index ["menu_id"], name: "index_menu_menu_items_on_menu_id"
     t.index ["menu_item_id"], name: "index_menu_menu_items_on_menu_item_id"
   end
