@@ -77,6 +77,13 @@ RSpec.describe "/menu_items", type: :request do
         }.to change(MenuItem, :count).by(0)
       end
 
+      it "does not create a new MenuItem without a menu" do
+        expect {
+          post menu_items_url,
+               params: { menu_item: valid_attributes.merge({ menu_id: nil }) }, as: :json
+        }.to change(MenuItem, :count).by(0)
+      end
+
       it "renders a JSON response with errors for the new menu_item" do
         post menu_items_url,
              params: { menu_item: invalid_attributes }, headers: valid_headers, as: :json
