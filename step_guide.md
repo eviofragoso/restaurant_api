@@ -1,0 +1,17 @@
+passo a passo desafio
+
+1 - utilizei docker run para gerar o projeto, pois não tenho ruby instalado nativo
+2 - rodei o comando rails new --api --devcontainer --skip-kamal restaurant_menu
+3 - Adicionei Rspec porque é o framework de test citado na descrição da vaga
+4 - rails g scaffold menu availability:integer name:string description:text signed_chef:string day_period:integer --test-framework rspec --api
+5 - rails g scaffold menu_item menu:belongs_to description:text lact_free:boolean gluten_free:boolean name:string --test-framework rspec --api
+6 - Fixed pending tests for menu, adding valid and invalid attributes, created a test case for each presence validation individually
+7 - comecei a fazer commits com passos mais individuais, para a histório de desenvolvimento ficar mais clara
+8 - The scaffold command used automatically creates the routes for the created resources, adding resource directive in routes
+9 - Added Factory bot to test more efficently
+10 - rails generate factory_bot:model menu availability:integer name:string description:text signed_chef:string day_period:integer
+11 - rails generate factory_bot:model menu_item menu:belongs_to description:text lact_free:boolean gluten_free:boolean name:string
+12 - Added model unit tests to cover validation behaviours
+13 - Finished rspec config
+14 - [lvl2] rails g scaffold restaurant name:string address:text --test-framework rspec --api
+15 - [lvl2]
