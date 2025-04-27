@@ -11,8 +11,8 @@ RSpec.describe MenuItem, type: :model do
         expect(build(:menu_item, description: nil)).not_to be_valid
       end
 
-      it "requires the presence of menu" do
-        expect(build(:menu_item, menu_id: nil)).not_to be_valid
+      it "requires the presence of restaurant" do
+        expect(build(:menu_item, restaurant_id: nil)).not_to be_valid
       end
     end
 

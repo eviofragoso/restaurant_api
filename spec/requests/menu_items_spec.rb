@@ -17,15 +17,11 @@ RSpec.describe "/menu_items", type: :request do
   # MenuItem. As you add validations to MenuItem, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    attributes_for(:menu_item, menu_id: menu.id)
+    attributes_for(:menu_item, restaurant_id: restaurant.id)
   }
 
   let(:restaurant) {
     create(:restaurant)
-  }
-
-  let(:menu) {
-    create(:menu, restaurant_id: restaurant.id)
   }
 
   let(:invalid_attributes) {
@@ -81,13 +77,6 @@ RSpec.describe "/menu_items", type: :request do
         }.to change(MenuItem, :count).by(0)
       end
 
-      it "does not create a new MenuItem without a menu" do
-        expect {
-          post menu_items_url,
-               params: { menu_item: valid_attributes.merge({ menu_id: nil }) }, as: :json
-        }.to change(MenuItem, :count).by(0)
-      end
-
       it "renders a JSON response with errors for the new menu_item" do
         post menu_items_url,
              params: { menu_item: invalid_attributes }, headers: valid_headers, as: :json
@@ -100,10 +89,9 @@ RSpec.describe "/menu_items", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_resturant) { create(:restaurant) }
-      let(:new_menu) { create(:menu, restaurant_id: restaurant.id) }
       let(:new_attributes) {
         {
-          menu_id: new_menu.id,
+          restaurant_id: new_resturant.id,
           name: "grilled squid",
           description: "grilled squid with garlic and butter",
           lact_free: false,
@@ -116,7 +104,7 @@ RSpec.describe "/menu_items", type: :request do
         patch menu_item_url(menu_item),
               params: { menu_item: new_attributes }, headers: valid_headers, as: :json
         menu_item.reload
-        changed_attributes = menu_item.attributes.slice("menu_id", "name", "description", "lact_free", "gluten_free")
+        changed_attributes = menu_item.attributes.slice("restaurant_id", "name", "description", "lact_free", "gluten_free")
 
         expect(changed_attributes.values).to eq(new_attributes.values)
       end
