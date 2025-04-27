@@ -25,3 +25,10 @@ passo a passo desafio
 23 - [lvl2] Adapted tests to the new association structure
 24 - [lvl2] Added tests to validate the behaviour of menu having multiple menu items and menu items can be on multiple menus
 25 - [lvl2] Added Faker to help generating unique names for tests and to genererate test data more efficiently in general
+26 - [lvl2] Added filtering in menu and menu item so the data can be acessed based on its associations. I preferred it over nested routes beacause it's an API an its easier to maintain and to comply to multiple use cases.
+27 - [lvl2] Added use cases to validate the filtering
+28 - [lvl3] Since the json is an array os restaurants, added an import endpoint in the restaurant controller
+29 - [lvl3] Created a import service, using a PORO class
+30 - [lvl3] Added price to the menu menu item association
+31 - [lvl3] Added endpoint checks for file existence and format
+32 - [lvl3] Changed validations to adapt to json data
