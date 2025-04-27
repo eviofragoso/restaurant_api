@@ -32,3 +32,7 @@ passo a passo desafio
 30 - [lvl3] Added price to the menu menu item association
 31 - [lvl3] Added endpoint checks for file existence and format
 32 - [lvl3] Changed validations to adapt to json data
+33 - [lvl3] Decided to go with a transaction block over all persistence in the import service, so it doesn't save partial data. It seems better for the user to fix the json structure than trying to import later fragments of data that weren't formatted correctly.
+34 - [lvl3] Moved menu_item name validation to restaurant scope only, so different restaurants can sell the same menu item
+35 - [lvl3] Added dependent destruction for associations
+36 - [lvl3] Added validation so the menu item is only associated once to a menu

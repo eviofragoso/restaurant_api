@@ -11,8 +11,10 @@ class RestaurantImportService
 
     raise "Missing restaurants info" unless data.key?(:restaurants)
 
-    data[:restaurants].each do |restaurant_attributes|
-      persist_restaurant(restaurant_attributes)
+    ActiveRecord::Base.transaction do
+      data[:restaurants].each do |restaurant_attributes|
+        persist_restaurant(restaurant_attributes)
+      end
     end
   end
 
@@ -44,7 +46,8 @@ class RestaurantImportService
   end
 
   def persist_menu_item(restaurant, menu, menu_item_attributes)
-    menu_item = restaurant.menu_items.where(menu_item_attributes[:name]).first_or_create
+    menu_item = restaurant.menu_items.where(name: menu_item_attributes[:name]).first
+    menu_item ||= restaurant.menu_items.create!(name: menu_item_attributes[:name])
 
     menu.menu_menu_items.create!(
       menu_item: menu_item,
