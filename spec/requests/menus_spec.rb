@@ -17,7 +17,7 @@ RSpec.describe "/menus", type: :request do
   # Menu. As you add validations to Menu, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    FactoryBot.attributes_for(:menu)
+    attributes_for(:menu)
   }
 
   let(:invalid_attributes) {

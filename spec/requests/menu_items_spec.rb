@@ -17,11 +17,11 @@ RSpec.describe "/menu_items", type: :request do
   # MenuItem. As you add validations to MenuItem, be sure to
   # adjust the attributes here as well.
   let(:menu) {
-    FactoryBot.create(:menu)
+    create(:menu)
   }
 
   let(:valid_attributes) {
-    FactoryBot.attributes_for(:menu_item, menu_id: menu.id)
+    attributes_for(:menu_item, menu_id: menu.id)
   }
 
   let(:invalid_attributes) {
@@ -95,7 +95,7 @@ RSpec.describe "/menu_items", type: :request do
 
   describe "PATCH /update" do
     context "with valid parameters" do
-      let(:new_menu) { FactoryBot.create(:menu) }
+      let(:new_menu) { create(:menu) }
       let(:new_attributes) {
         {
           menu_id: new_menu.id,
