@@ -22,4 +22,6 @@ passo a passo desafio
 20 - [lvl2] rails g model menu_menu_item menu:belongs_to menu_item:belongs_to
 21 - [lvl2] Added migration to handle change in the menu items association, now belonging to restaurant
 22 - [lvl2] Added data migrating in the migration, so there is no orphaned menu items when changing the belongs_to association
-23 - 
+23 - [lvl2] Adapted tests to the new association structure
+24 - [lvl2] Added tests to validate the behaviour of menu having multiple menu items and menu items can be on multiple menus
+25 - [lvl2] Added Faker to help generating unique names for tests and to genererate test data more efficiently in general
