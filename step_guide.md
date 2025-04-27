@@ -14,4 +14,8 @@ passo a passo desafio
 12 - Added model unit tests to cover validation behaviours
 13 - Finished rspec config
 14 - [lvl2] rails g scaffold restaurant name:string address:text --test-framework rspec --api
-15 - [lvl2]
+15 - [lvl2] Added new associations to menu and restaurant
+16 - [lvl2] Fixed tests with the added restaurant association
+17 - [lvl2] Handled the pending restaurant tests and added restaurant validation tests
+18 - [lvl2] Added restaurant validation test in menu tests
+19 - [lvl2] Added Uniqueness validation test in menu item tests
