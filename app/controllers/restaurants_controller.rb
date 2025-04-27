@@ -1,11 +1,22 @@
 class RestaurantsController < ApplicationController
   before_action :set_restaurant, only: %i[ show update destroy ]
+  before_action :check_file, only: %i[ import ]
 
   # GET /restaurants
   def index
     @restaurants = Restaurant.all
 
     render json: @restaurants
+  end
+
+  # POST /restaurants/import
+  def import
+    file = params[:file]
+
+    return render json: { error: "No file uploaded" }, status: :bad_request unless @file
+    return render json: { error: "Unsupported file type" }, status: :unprocessable_entity unless file.content_type == "application/json"
+
+    RestaurantImportService.new(file).call
   end
 
   # GET /restaurants/1
@@ -47,5 +58,9 @@ class RestaurantsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def restaurant_params
       params.expect(restaurant: [ :name, :address ])
+    end
+
+    def check_file
+      @file = params[:file]
     end
 end
