@@ -47,4 +47,7 @@ group :development, :test do
 
   # factory_bot is a fixtures replacement with a straightforward definition syntax, support for multiple build strategies
   gem "factory_bot_rails"
+
+  # Faker helps you generate realistic test data, and populate your database with more than a couple of records while you're doing development.
+  gem "faker"
 end

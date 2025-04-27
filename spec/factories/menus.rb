@@ -2,9 +2,9 @@ FactoryBot.define do
   factory :menu do
     restaurant
     availability { 1 }
-    name { "Michellin Rated Menu" }
-    description { "Menu for people with refined taste" }
-    signed_chef { "Gordon Ramsay" }
+    name { Faker::Food.ethnic_category }
+    description { Faker::Restaurant.type  }
+    signed_chef { Faker::Name.name }
     day_period { 1 }
   end
 end

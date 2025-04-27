@@ -24,4 +24,14 @@ RSpec.describe MenuItem, type: :model do
       end
     end
   end
+
+  describe "associations" do
+    it "lets menu items be on multiple menus" do
+      restaurant = create(:restaurant)
+      menu_1 = create(:menu)
+      menu_2 = create(:menu)
+
+      expect(build(:menu_item, restaurant_id: restaurant.id, menu_ids: [ menu_1.id, menu_2.id ])).to be_valid
+    end
+  end
 end
