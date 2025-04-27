@@ -1,5 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe Restaurant, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "Validation" do
+    context "presence validation" do
+      it "requires the presence of name" do
+        expect(build(:restaurant, name: nil)).not_to be_valid
+      end
+
+      it "requires the presence of address" do
+        expect(build(:restaurant, address: nil)).not_to be_valid
+      end
+    end
+  end
 end

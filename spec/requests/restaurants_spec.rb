@@ -17,11 +17,11 @@ RSpec.describe "/restaurants", type: :request do
   # Restaurant. As you add validations to Restaurant, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    attributes_for(:restaurant)
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    valid_attributes.merge({ name: nil })
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -85,7 +85,10 @@ RSpec.describe "/restaurants", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {
+          name: "Mediterranium",
+          address: "Formosa - GO"
+        }
       }
 
       it "updates the requested restaurant" do
@@ -93,7 +96,9 @@ RSpec.describe "/restaurants", type: :request do
         patch restaurant_url(restaurant),
               params: { restaurant: new_attributes }, headers: valid_headers, as: :json
         restaurant.reload
-        skip("Add assertions for updated state")
+        changed_attributes = restaurant.attributes.slice("name", "address")
+
+        expect(changed_attributes.values).to eq(new_attributes.values)
       end
 
       it "renders a JSON response with the restaurant" do
