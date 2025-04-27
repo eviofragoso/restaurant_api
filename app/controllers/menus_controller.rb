@@ -46,6 +46,6 @@ class MenusController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def menu_params
-      params.expect(menu: [ :availability, :name, :description, :signed_chef, :day_period ])
+      params.expect(menu: [ :availability, :name, :description, :signed_chef, :day_period, :restaurant_id ])
     end
 end

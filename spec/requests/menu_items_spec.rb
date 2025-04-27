@@ -16,12 +16,16 @@ RSpec.describe "/menu_items", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # MenuItem. As you add validations to MenuItem, be sure to
   # adjust the attributes here as well.
-  let(:menu) {
-    create(:menu)
-  }
-
   let(:valid_attributes) {
     attributes_for(:menu_item, menu_id: menu.id)
+  }
+
+  let(:restaurant) {
+    create(:restaurant)
+  }
+
+  let(:menu) {
+    create(:menu, restaurant_id: restaurant.id)
   }
 
   let(:invalid_attributes) {
@@ -95,7 +99,8 @@ RSpec.describe "/menu_items", type: :request do
 
   describe "PATCH /update" do
     context "with valid parameters" do
-      let(:new_menu) { create(:menu) }
+      let(:new_resturant) { create(:restaurant) }
+      let(:new_menu) { create(:menu, restaurant_id: restaurant.id) }
       let(:new_attributes) {
         {
           menu_id: new_menu.id,

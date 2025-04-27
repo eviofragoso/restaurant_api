@@ -17,7 +17,11 @@ RSpec.describe "/menus", type: :request do
   # Menu. As you add validations to Menu, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    attributes_for(:menu)
+    attributes_for(:menu).merge({ restaurant_id: restaurant.id })
+  }
+
+  let(:restaurant) {
+    create(:restaurant)
   }
 
   let(:invalid_attributes) {

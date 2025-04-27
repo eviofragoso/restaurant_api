@@ -15,5 +15,11 @@ RSpec.describe MenuItem, type: :model do
         expect(build(:menu_item, menu_id: nil)).not_to be_valid
       end
     end
+
+    context "uniqueness" do
+      it "validates uniqueness of name" do
+        expect(build(:menu_item, name: nil)).not_to be_valid
+      end
+    end
   end
 end
