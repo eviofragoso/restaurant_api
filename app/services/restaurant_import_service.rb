@@ -1,30 +1,27 @@
 class RestaurantImportService
   PERMITTED_MENU_ITEMS_KEYS = %i[menu_items dishes]
 
-  def initialize(file)
-    @file = file
+  def initialize(json_data)
+    @json_data = json_data
     @service_logging = []
+    @error = nil
   end
 
   def call
-    data = file_content
-
-    raise "Missing restaurants info" unless data.key?(:restaurants)
-
     ActiveRecord::Base.transaction do
-      data[:restaurants].each do |restaurant_attributes|
+      raise "Missing restaurants info" unless @json_data.key?(:restaurants)
+
+      @json_data[:restaurants].each do |restaurant_attributes|
         persist_restaurant(restaurant_attributes)
       end
+    rescue StandardError => e
+      @error = e
     end
+
+    [ @service_logging, @error ]
   end
 
   private
-
-  def file_content
-    JSON.parse(@file.read, symbolize_names: true)
-  rescue JSON::ParserError => e
-    Rails.logger.error("[RestaurantImportService] Invalid JSON file: #{e.message}")
-  end
 
   def persist_restaurant(restaurant_attributes)
     restaurant = Restaurant.create!(name: restaurant_attributes[:name])
@@ -53,25 +50,27 @@ class RestaurantImportService
       menu_item: menu_item,
       price: menu_item_attributes[:price]
     )
+
+    log_menu_item(menu_item_attributes, menu, restaurant)
+  rescue ActiveRecord::RecordInvalid => e
+    log_menu_item(menu_item_attributes, menu, restaurant, e)
   end
 
+  def log_menu_item(attributes, menu, restaurant, exception = nil)
+    log = {
+      status: :ok,
+      restaurant: restaurant.name,
+      menu: menu.name,
+      attributes: attributes
+    }
 
-  def log_menu_item_persistence_success(attributes)
-    log_text = "[RestaurantImportService] Success persisting menu item with attributes: #{attributes}"
+    if exception
+      log[:error]  = exception.message
+      log[:status] = :fail
+    end
 
-    Rails.logger.info(log_text)
+    Rails.logger.error("RestaurantImportService] #{log}")
 
-    log_text
-  end
-
-  def log_menu_item_persistence_error(attributes, exception)
-    log_text = <<~TEXT
-      [RestaurantImportService] Error persisting menu item with attributes: #{attributes}.
-      -- The following error was raised: #{e.message}
-    TEXT
-
-    Rails.logger.error(log_text)
-
-    log_text
+    @service_logging << log
   end
 end

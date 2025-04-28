@@ -11,12 +11,20 @@ class RestaurantsController < ApplicationController
 
   # POST /restaurants/import
   def import
-    file = params[:file]
-
     return render json: { error: "No file uploaded" }, status: :bad_request unless @file
-    return render json: { error: "Unsupported file type" }, status: :unprocessable_entity unless file.content_type == "application/json"
+    return render json: { error: "Unsupported file type" }, status: :bad_request unless @file.content_type == "application/json"
 
-    RestaurantImportService.new(file).call
+    begin
+      file_data = JSON.parse(@file.read, symbolize_names: true)
+    rescue JSON::ParserError
+      return render json: { error: "Invalid json" }, status: :bad_request
+    end
+
+    logs, error = RestaurantImportService.new(file_data).call
+
+    return render json: { error: error, menu_items_logs: logs }, status: :bad_request if error
+
+    render json: { menu_items_logs: logs }, status: :ok
   end
 
   # GET /restaurants/1
