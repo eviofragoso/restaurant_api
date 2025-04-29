@@ -42,4 +42,4 @@ passo a passo desafio
 40 - [lvl3] Changed menu item log to return hash, being more api friendly
 41 - [lvl3] Added simplecov to check coverage
 42 - [lvl3] Add tests to cover import service behaviour
-
+43 - [lvl3] Add tests to cover restaurant import endpoint
