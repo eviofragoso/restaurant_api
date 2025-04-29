@@ -1,6 +1,6 @@
 namespace :import do
   desc "Import Restaurants based on JSON file"
-  task :restaurants_by_file, [:file_path] => [:environment] do |t, args|
+  task :restaurants_by_file, [ :file_path ] => [ :environment ] do |t, args|
     file_contents = File.read(File.join(args[:file_path]))
     json_data     = JSON.parse(file_contents, symbolize_names: true)
 
