@@ -18,7 +18,7 @@ Below is the step-by-step process that guided the development:
 5. Generated the scaffold for the `MenuItem` model:
    ```bash
    rails g scaffold menu_item menu:belongs_to description:text lact_free:boolean gluten_free:boolean name:string --test-framework rspec --api
-   ```
+   ```git config --global user.email "you@example.com"
 6. Fixed the pending tests for the `Menu` model, adding tests for valid and invalid attributes and creating individual test cases for each presence validation.
 7. Started making more granular commits to keep a clearer development history.
 8. The `scaffold` command automatically created the routes for the resources by adding `resources` directives to `routes.rb`.
@@ -93,7 +93,7 @@ bundle exec rake import:restaurants_by_file[file_path]
 - Example:
 
 ```bash
-bundle exec rake import:restaurants_by_file['spec/fixtures/restaurants.json']
+bundle exec rake import:restaurants_by_file['spec/fixtures/files/restaurant_data.json']
 ```
 
 The task will:
