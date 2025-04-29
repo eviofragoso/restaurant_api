@@ -50,4 +50,7 @@ group :development, :test do
 
   # Faker helps you generate realistic test data, and populate your database with more than a couple of records while you're doing development.
   gem "faker"
+
+  # Code coverage for Ruby
+  gem "simplecov", require: false
 end
