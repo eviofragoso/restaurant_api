@@ -43,3 +43,4 @@ passo a passo desafio
 41 - [lvl3] Added simplecov to check coverage
 42 - [lvl3] Add tests to cover import service behaviour
 43 - [lvl3] Add tests to cover restaurant import endpoint
+44 - [lvl3] Added rake task to access the import service directly
