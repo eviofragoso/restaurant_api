@@ -13,6 +13,7 @@ require 'rails_helper'
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe "/restaurants", type: :request do
+  include ActionDispatch::TestProcess::FixtureFile
   # This should return the minimal set of attributes required to create a valid
   # Restaurant. As you add validations to Restaurant, be sure to
   # adjust the attributes here as well.
@@ -78,6 +79,54 @@ RSpec.describe "/restaurants", type: :request do
              params: { restaurant: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to match(a_string_including("application/json"))
+      end
+    end
+  end
+
+  describe "POST /import" do
+    context "when no file given" do
+      it "responds with a bad request" do
+        post import_restaurants_url
+
+        expect(response.status).to eq(400)
+        expect(JSON.parse(response.body)["error"]).to eq("No file uploaded")
+      end
+    end
+
+    context "when unsupported file format given" do
+      it "responds with a bad request" do
+        post import_restaurants_url, params: { file: file_fixture_upload('text_file.txt', 'text/plain') }
+
+        expect(response.status).to eq(400)
+        expect(JSON.parse(response.body)["error"]).to eq("Unsupported file type")
+      end
+    end
+
+    context "when bad formatted json file given" do
+      it "responds with a bad request" do
+        post import_restaurants_url, params: { file: file_fixture_upload('invalid_json.json', 'application/json') }
+
+        expect(response.status).to eq(400)
+        expect(JSON.parse(response.body)["error"]).to eq("Invalid json")
+      end
+    end
+
+    context "when import service return an error" do
+      it "responds with a bad request" do
+        post import_restaurants_url, params: { file: file_fixture_upload('valid_json_without_expect_structure.json', 'application/json') }
+
+        expect(response.status).to eq(400)
+        expect(JSON.parse(response.body)["error"]).to eq("Missing restaurants info")
+      end
+    end
+
+    context "when import service persists data successfuly" do
+      it "responds with a success status" do
+        post import_restaurants_url, params: { file: file_fixture_upload('restaurant_data.json', 'application/json') }
+
+        expect(response.status).to eq(200)
+        expect(JSON.parse(response.body)["error"]).to be_nil
+        expect(JSON.parse(response.body)["menu_items_logs"].size).to eq(9)
       end
     end
   end
